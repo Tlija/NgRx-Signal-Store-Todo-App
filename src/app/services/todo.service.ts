@@ -12,18 +12,21 @@ export class TodoService {
 
 
   async getTodos() {
-
     await sleep(1000)
     return mockTodos;
   }
 
-  async addTodo(todo:Partial<TodoModel>){
-    await  sleep(1000);
+  async addTodo(todo: Partial<TodoModel>) {
+    await sleep(1000);
     return {
-      id:Math.random().toString(36).substr(2,9),
+      id: Math.random().toString(36).substr(2, 9),
       ...todo
-    }as TodoModel
+    } as TodoModel
 
+  }
+
+  async deleteTodo(id:string){
+    await sleep(500);
   }
 
 }

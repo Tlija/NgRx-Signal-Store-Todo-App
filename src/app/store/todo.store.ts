@@ -17,29 +17,34 @@ const initialState: TodoState = {
 }
 
 
-// @ts-ignore
 export const TodosStore = signalStore(
-  {providedIn:'root'},
+  {providedIn: 'root'},
   withState(initialState),
   withMethods(
-    (store,todosService = inject(TodoService))=>({
+    (store, todosService = inject(TodoService)) => ({
 
-      async loadAll(){
-        patchState(store,{loading:true});
-        const todos =await todosService.getTodos();
-        patchState(store,{todos:todos, loading:false})
+      async loadAll() {
+        patchState(store, {loading: true});
+        const todos = await todosService.getTodos();
+        patchState(store, {todos: todos, loading: false})
       },
 
-      async addTodo(title:string){
-        const todo = await todosService.addTodo({title,completed:false})
-        patchState(store,(state)=>({
-          todos:[...state.todos,todo]
+      async addTodo(title: string) {
+        const todo = await todosService.addTodo({title, completed: false})
+        patchState(store, (state) => ({
+          todos: [...state.todos, todo]
         }))
+      },
 
+      async deleteTodo(id: string) {
+        await todosService.deleteTodo(id)
+
+        patchState(store, (state) => ({
+          todos: state.todos.filter(todo => todo.id !== id)
+        }))
       }
 
 
     })
   )
-
 )
